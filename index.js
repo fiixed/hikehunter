@@ -29,6 +29,11 @@ app.get('/hikes', async (req, res) => {
     res.render('hikes/index', { hikes });
 });
 
+app.get('/hikes/:id', async (req, res,) => {
+    const hike = await Hike.findById(req.params.id)
+    res.render('hikes/details', { hike });
+});
+
 app.listen(3000, () => {
     console.log(`Server started on 3000`);
 });
