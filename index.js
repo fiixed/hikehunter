@@ -24,10 +24,9 @@ app.get('/', (req, res) => {
     res.render("home");
 });
 
-app.get('/makehike', async (req, res) => {
-    const hike = new Hike({title: 'My alley way', description: 'Test'});
-    await hike.save();
-    res.send(hike);
+app.get('/hikes', async (req, res) => {
+    const hikes = await Hike.find({});
+    res.render('hikes/index', { hikes });
 });
 
 app.listen(3000, () => {
