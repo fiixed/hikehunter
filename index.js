@@ -59,6 +59,12 @@ app.put('/hikes/:id', async (req, res) => {
     res.redirect(`/hikes/${hike._id}`)
 });
 
+app.delete('/hikes/:id', async (req, res) => {
+    const { id } = req.params;
+    await Hike.findByIdAndDelete(id);
+    res.redirect('/hikes');
+})
+
 
 
 
