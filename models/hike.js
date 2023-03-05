@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const HikeSchema = new Schema({
     title: String,
-    difficulty: String,
+    image: String,
+    difficulty: Number,
     description: String,
     location: String
 });
