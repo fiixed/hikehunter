@@ -22,9 +22,13 @@ const seedDB = async () => {
     await Hike.deleteMany({});
     for (let i = 0; i < 50; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
+        const difficulty = Math.floor(Math.random() * 5) + 1;
         const hike = new Hike({
             title: `${sample(descriptors)} ${sample(places)}`,
-            location: `${cities[random1000].city}, ${cities[random1000].state}`
+            location: `${cities[random1000].city}, ${cities[random1000].state}`,
+            image: 'https://random.imagecdn.app/500/150',
+            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
+            difficulty
         })
         await hike.save();
     }
