@@ -2,31 +2,48 @@
     <div class="row">
         <h1 class="text-center">New Hike</h1>
         <div class="col-6 offset-3">
-            <form action="/hikes" method="POST">
+            <form action="/hikes" method="POST" novalidate class="validated-form">
                 <div class="mb-3">
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-control" type="text" id="title" name="hike[title]">
+                    <input class="form-control" type="text" id="title" name="hike[title]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="location">Location</label>
-                    <input class="form-control" type="text" id="location" name="hike[location]">
+                    <input class="form-control" type="text" id="location" name="hike[location]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="image">Image Url</label>
-                    <input class="form-control" type="text" id="image" name="hike[image]">
+                    <input class="form-control" type="text" id="image" name="hike[image]" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="price">Hike Difficulty</label>
+                    <label class="form-label" for="difficulty">Hike Difficulty</label>
                     <div class="input-group">
 
-                        <input type="text" class="form-control" id="price" placeholder="0/5" aria-label="price"
-                            aria-describedby="price-label" name="hike[price]">
+                        <input type="text" class="form-control" id="difficulty" placeholder="0/5"
+                            aria-label="difficulty" aria-describedby="difficulty-label" name="hike[difficulty]"
+                            required>
+                    </div>
+                    <div class="valid-feedback">
+                        Looks good!
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
-                    <textarea class="form-control" type="text" id="description" name="hike[description]"></textarea>
+                    <textarea class="form-control" type="text" id="description" name="hike[description]"
+                        required></textarea>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
                 </div>
                 <div class="mb-3">
                     <button class="btn btn-success">Add Hike</button>
