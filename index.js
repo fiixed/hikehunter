@@ -2,11 +2,12 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
-const { hikeSchema } = require('./schemas');
+const { hikeSchema, reviewSchema } = require('./schemas');
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const Hike = require('./models/hike');
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/hikehunter',
     {
@@ -31,6 +32,16 @@ app.use(methodOverride('_method'));
 
 const validateHike = (req, res, next) => {
     const { error } = hikeSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+}
+
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)
@@ -79,6 +90,15 @@ app.delete('/hikes/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Hike.findByIdAndDelete(id);
     res.redirect('/hikes');
+}))
+
+app.post('/hikes/:id/reviews', catchAsync(async (req, res) => {
+    const hike = await Hike.findById(req.params.id);
+    const review = new Review(req.body.review);
+    hike.reviews.push(review);
+    await review.save();
+    await hike.save();
+    res.redirect(`/hikes/${hike._id}`);
 }))
 
 app.all('*', (req, res, next) => {
