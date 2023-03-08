@@ -92,7 +92,7 @@ app.delete('/hikes/:id', catchAsync(async (req, res) => {
     res.redirect('/hikes');
 }))
 
-app.post('/hikes/:id/reviews', catchAsync(async (req, res) => {
+app.post('/hikes/:id/reviews', validateReview, catchAsync(async (req, res) => {
     const hike = await Hike.findById(req.params.id);
     const review = new Review(req.body.review);
     hike.reviews.push(review);
