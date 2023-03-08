@@ -6,7 +6,13 @@ const HikeSchema = new Schema({
     image: String,
     difficulty: Number,
     description: String,
-    location: String
+    location: String,
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
 });
 
 module.exports = mongoose.model('Hike', HikeSchema);
