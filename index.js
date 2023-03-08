@@ -70,7 +70,7 @@ app.post('/hikes', validateHike, catchAsync(async (req, res) => {
 }));
 
 app.get('/hikes/:id', catchAsync(async (req, res,) => {
-    const hike = await Hike.findById(req.params.id)
+    const hike = await Hike.findById(req.params.id).populate('reviews');
     res.render('hikes/details', { hike });
 }));
 
