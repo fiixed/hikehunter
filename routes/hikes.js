@@ -23,33 +23,42 @@ router.get('/new', (req, res) => {
     res.render('hikes/new');
 });
 
-router.post('/', validateHike, catchAsync(async (req, res) => {
-
+router.post('/', validateHike, catchAsync(async (req, res, next) => {
     const hike = new Hike(req.body.hike);
     await hike.save();
+    req.flash('success', 'Successfully made a new hike!');
     res.redirect(`/hikes/${hike._id}`);
 }));
 
 router.get('/:id', catchAsync(async (req, res,) => {
     const hike = await Hike.findById(req.params.id).populate('reviews');
-    res.render('hikes/details', { hike });
+    if (!hike) {
+        req.flash('error', 'Cannot find that hike!');
+        return res.redirect('/hikes');
+    }
+    res.render('hikes/details', { hike }, );
 }));
 
 router.get('/:id/edit', catchAsync(async (req, res) => {
     const hike = await Hike.findById(req.params.id)
+    if (!hike) {
+        req.flash('error', 'Cannot find that hike!');
+        return res.redirect('/hikes');
+    }
     res.render('hikes/edit', { hike });
 }))
 
 router.put('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
-    console.log(req.body.hike);
     const hike = await Hike.findByIdAndUpdate(id, { ...req.body.hike });
+    req.flash('success', 'Successfully updated hike!');
     res.redirect(`/hikes/${hike._id}`)
 }));
 
 router.delete('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Hike.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted hike')
     res.redirect('/hikes');
 }))
 
