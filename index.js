@@ -9,6 +9,8 @@ const methodOverride = require('method-override');
 const Hike = require('./models/hike');
 const Review = require('./models/review');
 
+const hikes = require('./routes/hikes');
+
 mongoose.connect('mongodb://localhost:27017/hikehunter',
     {
         useNewUrlParser: true,
@@ -30,15 +32,7 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
-const validateHike = (req, res, next) => {
-    const { error } = hikeSchema.validate(req.body);
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    } else {
-        next();
-    }
-}
+
 
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
@@ -50,47 +44,13 @@ const validateReview = (req, res, next) => {
     }
 }
 
+app.use('/hikes', hikes)
+
 app.get('/', (req, res) => {
     res.render("home");
 });
 
-app.get('/hikes', catchAsync(async (req, res) => {
-    const hikes = await Hike.find({});
-    res.render('hikes/index', { hikes });
-}));
-app.get('/hikes/new', (req, res) => {
-    res.render('hikes/new');
-});
 
-app.post('/hikes', validateHike, catchAsync(async (req, res) => {
-
-    const hike = new Hike(req.body.hike);
-    await hike.save();
-    res.redirect(`/hikes/${hike._id}`);
-}));
-
-app.get('/hikes/:id', catchAsync(async (req, res,) => {
-    const hike = await Hike.findById(req.params.id).populate('reviews');
-    res.render('hikes/details', { hike });
-}));
-
-app.get('/hikes/:id/edit', catchAsync(async (req, res) => {
-    const hike = await Hike.findById(req.params.id)
-    res.render('hikes/edit', { hike });
-}))
-
-app.put('/hikes/:id', catchAsync(async (req, res) => {
-    const { id } = req.params;
-    console.log(req.body.hike);
-    const hike = await Hike.findByIdAndUpdate(id, { ...req.body.hike });
-    res.redirect(`/hikes/${hike._id}`)
-}));
-
-app.delete('/hikes/:id', catchAsync(async (req, res) => {
-    const { id } = req.params;
-    await Hike.findByIdAndDelete(id);
-    res.redirect('/hikes');
-}))
 
 app.post('/hikes/:id/reviews', validateReview, catchAsync(async (req, res) => {
     const hike = await Hike.findById(req.params.id);
