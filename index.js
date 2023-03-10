@@ -11,14 +11,17 @@ const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
 
-//const userRoutes = require('./routes/users');
-const hikes = require('./routes/hikes');
-const reviews = require('./routes/reviews');
+const userRoutes = require('./routes/users');
+const hikeRoutes = require('./routes/hikes');
+const reviewRoutes = require('./routes/reviews');
+
+mongoose.set('strictQuery', false);
 
 mongoose.connect('mongodb://localhost:27017/hikehunter',
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
+
     });
 
 const db = mongoose.connection;
@@ -63,8 +66,9 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use('/hikes', hikes);
-app.use('/hikes/:id/reviews', reviews)
+app.use('/', userRoutes);
+app.use('/hikes', hikeRoutes);
+app.use('/hikes/:id/reviews', reviewRoutes)
 
 app.get('/', (req, res) => {
     res.render("home");
