@@ -3,6 +3,7 @@ const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const { hikeSchema } = require('../schemas');
+const { isLoggedIn } = require('../middleware');
 const Hike = require('../models/hike');
 
 const validateHike = (req, res, next) => {
@@ -19,7 +20,7 @@ router.get('/', catchAsync(async (req, res) => {
     const hikes = await Hike.find({});
     res.render('hikes/index', { hikes });
 }));
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('hikes/new');
 });
 
@@ -39,7 +40,7 @@ router.get('/:id', catchAsync(async (req, res,) => {
     res.render('hikes/details', { hike }, );
 }));
 
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const hike = await Hike.findById(req.params.id)
     if (!hike) {
         req.flash('error', 'Cannot find that hike!');
@@ -48,14 +49,14 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
     res.render('hikes/edit', { hike });
 }))
 
-router.put('/:id', catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const hike = await Hike.findByIdAndUpdate(id, { ...req.body.hike });
     req.flash('success', 'Successfully updated hike!');
     res.redirect(`/hikes/${hike._id}`)
 }));
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     await Hike.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted hike')
