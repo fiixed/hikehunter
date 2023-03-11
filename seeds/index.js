@@ -3,6 +3,8 @@ const cities = require('./cities');
 const { places, descriptors } = require('./seedHelpers');
 const Hike = require('../models/hike');
 
+mongoose.set('strictQuery', false);
+
 mongoose.connect('mongodb://localhost:27017/hikehunter', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -18,12 +20,12 @@ db.once("open", () => {
 const sample = array => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
-    console.log(places[1]);
     await Hike.deleteMany({});
     for (let i = 0; i < 50; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
         const difficulty = Math.floor(Math.random() * 5) + 1;
         const hike = new Hike({
+            author: '640c944cfd8a04be2b66d09f',
             title: `${sample(descriptors)} ${sample(places)}`,
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             image: 'https://random.imagecdn.app/500/150',
