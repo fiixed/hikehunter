@@ -23,12 +23,14 @@
                         <%= hike.difficulty%> difficulty out of 5
                     </li>
                 </ul>
-                <div class="card-body">
-                    <a class="card-link btn btn-info" href="/hikes/<%=hike._id%>/edit">Edit</a>
-                    <form class="d-inline" action="/hikes/<%=hike._id%>?_method=DELETE" method="POST">
-                        <button class="btn btn-danger">Delete</button>
-                    </form>
-                </div>
+                <%  if( currentUser && hike.author.equals(currentUser._id))  {%>
+                    <div class="card-body">
+                        <a class="card-link btn btn-info" href="/hikes/<%=hike._id%>/edit">Edit</a>
+                        <form class="d-inline" action="/hikes/<%=hike._id%>?_method=DELETE" method="POST">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                    <% } %>
                 <div class="card-footer text-muted">
                     2 days ago
                 </div>
