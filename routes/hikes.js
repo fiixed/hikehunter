@@ -3,12 +3,19 @@ const router = express.Router();
 const hikes = require('../controllers/hikes');
 const catchAsync = require('../utils/catchAsync');
 const { isLoggedIn, isAuthor, validateHike } = require('../middleware');
+const multer = require('multer');
+const { storage } = require('../cloudinary');
+const upload = multer({ storage });
 
 const Hike = require('../models/hike');
 
 router.route('/')
     .get(catchAsync(hikes.index))
-    .post(isLoggedIn, validateHike, catchAsync(hikes.createhike))
+    //.post(isLoggedIn, validateHike, catchAsync(hikes.createhike))
+    .post(upload.single('image'), (req, res) => {
+        console.log(req.body, req.file);
+        res.send('it worked')
+    });
 
 router.get('/new', isLoggedIn, hikes.renderNewForm)
 
