@@ -1,4 +1,5 @@
 const Hike = require('../models/hike');
+const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async (req, res) => {
     const hikes = await Hike.find({});
@@ -52,9 +53,9 @@ module.exports.updateHike = async (req, res) => {
     await hike.save();
     if (req.body.deleteImages) {
         for (let filename of req.body.deleteImages) {
-            await cloudinary.uploader.destroy(filename);
+            await cloudinary.uploader.destroy(filename);  // delete on cloudinary
         }
-        await hike.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+        await hike.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })  // delete on Mongo
     }
     req.flash('success', 'Successfully updated hike!');
     res.redirect(`/hikes/${hike._id}`)
