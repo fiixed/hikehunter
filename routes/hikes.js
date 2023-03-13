@@ -11,11 +11,8 @@ const Hike = require('../models/hike');
 
 router.route('/')
     .get(catchAsync(hikes.index))
-    //.post(isLoggedIn, validateHike, catchAsync(hikes.createhike))
-    .post(upload.single('image'), (req, res) => {
-        console.log(req.body, req.file);
-        res.send('it worked')
-    });
+    .post(isLoggedIn, upload.array('image'), validateHike, catchAsync(hikes.createhike));
+
 
 router.get('/new', isLoggedIn, hikes.renderNewForm)
 
