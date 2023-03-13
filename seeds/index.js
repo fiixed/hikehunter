@@ -28,7 +28,21 @@ const seedDB = async () => {
             author: '640c944cfd8a04be2b66d09f',
             title: `${sample(descriptors)} ${sample(places)}`,
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
-            image: 'https://random.imagecdn.app/500/150',
+            images: [
+                {
+                    url: 'https://res.cloudinary.com/fiixed/image/upload/v1678732715/HikeHunter/riwbcoqhtpahyj0zbw1u.jpg',
+                    filename: 'HikeHunter/riwbcoqhtpahyj0zbw1u'
+
+                },
+                {
+                    url: 'https://res.cloudinary.com/fiixed/image/upload/v1678732715/HikeHunter/b8fvndggnmntqxuzeuyz.jpg',
+                    filename: 'HikeHunter/b8fvndggnmntqxuzeuyz'
+                },
+                {
+                    url: 'https://res.cloudinary.com/fiixed/image/upload/v1678732715/HikeHunter/dwv6hmj7jr27kqmrfiw9.jpg',
+                    filename: 'HikeHunter/dwv6hmj7jr27kqmrfiw9'
+                }
+            ],
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
             difficulty
         })
