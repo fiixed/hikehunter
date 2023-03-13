@@ -45,7 +45,17 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateHike = async (req, res) => {
     const { id } = req.params;
+    console.log(req.body);
     const hike = await Hike.findByIdAndUpdate(id, { ...req.body.hike });
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    hike.images.push(...imgs);
+    await hike.save();
+    if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+            await cloudinary.uploader.destroy(filename);
+        }
+        await hike.updateOne({ $pull: { images: { filename: { $in: req.body.deleteImages } } } })
+    }
     req.flash('success', 'Successfully updated hike!');
     res.redirect(`/hikes/${hike._id}`)
 }

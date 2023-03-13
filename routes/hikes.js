@@ -18,7 +18,7 @@ router.get('/new', isLoggedIn, hikes.renderNewForm)
 
 router.route('/:id')
     .get(catchAsync(hikes.showHike))
-    .put(isLoggedIn, isAuthor, validateHike, catchAsync(hikes.updateHike))
+    .put(isLoggedIn, isAuthor, upload.array('image'), validateHike, catchAsync(hikes.updateHike))
     .delete(isLoggedIn, isAuthor, catchAsync(hikes.deletehike));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(hikes.renderEditForm))
