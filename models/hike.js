@@ -30,7 +30,7 @@ const HikeSchema = new Schema({
             required: true
         }
     },
-    price: Number,
+    difficulty: Number,
     description: String,
     location: String,
     author: {
