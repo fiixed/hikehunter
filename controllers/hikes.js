@@ -1,5 +1,9 @@
 const Hike = require('../models/hike');
 const { cloudinary } = require("../cloudinary");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+
 
 module.exports.index = async (req, res) => {
     const hikes = await Hike.find({});
@@ -11,7 +15,12 @@ module.exports.renderNewForm = (req, res) => {
 }
 
 module.exports.createhike = async (req, res, next) => {
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.hike.location,
+        limit: 1
+    }).send()
     const hike = new Hike(req.body.hike);
+    hike.geometry = geoData.body.features[0].geometry;
     hike.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     hike.author = req.user._id;
     await hike.save();
