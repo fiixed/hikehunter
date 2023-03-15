@@ -12,10 +12,10 @@ const map = new mapboxgl.Map({
 
 new mapboxgl.Marker()
     .setLngLat(hike.geometry.coordinates)
-    // .setPopup(
-    //     new mapboxgl.Popup({ offset: 25 })
-    //         .setHTML(
-    //             `<h3>${hike.title}</h3><p>${hike.location}</p>`
-    //         )
-    // )
+    .setPopup(
+        new mapboxgl.Popup({ offset: 25 })
+            .setHTML(
+                `<h3>${hike.title}</h3><p>${hike.location}</p>`
+            )
+    )
     .addTo(map)
