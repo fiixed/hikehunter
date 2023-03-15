@@ -19,36 +19,36 @@ db.once("open", () => {
 
 const sample = array => array[Math.floor(Math.random() * array.length)];
 
+
 const seedDB = async () => {
     await Hike.deleteMany({});
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 300; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
         const difficulty = Math.floor(Math.random() * 5) + 1;
         const hike = new Hike({
-            author: '640c944cfd8a04be2b66d09f',
-            title: `${sample(descriptors)} ${sample(places)}`,
+            //YOUR USER ID
+            author: '5f5c330c2cd79d538f2c66d9',
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
-            images: [
-                {
-                    url: 'https://res.cloudinary.com/fiixed/image/upload/v1678732715/HikeHunter/riwbcoqhtpahyj0zbw1u.jpg',
-                    filename: 'HikeHunter/riwbcoqhtpahyj0zbw1u'
-
-                },
-                {
-                    url: 'https://res.cloudinary.com/fiixed/image/upload/v1678732715/HikeHunter/b8fvndggnmntqxuzeuyz.jpg',
-                    filename: 'HikeHunter/b8fvndggnmntqxuzeuyz'
-                },
-                {
-                    url: 'https://res.cloudinary.com/fiixed/image/upload/v1678732715/HikeHunter/dwv6hmj7jr27kqmrfiw9.jpg',
-                    filename: 'HikeHunter/dwv6hmj7jr27kqmrfiw9'
-                }
-            ],
+            title: `${sample(descriptors)} ${sample(places)}`,
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam dolores vero perferendis laudantium, consequuntur voluptatibus nulla architecto, sit soluta esse iure sed labore ipsam a cum nihil atque molestiae deserunt!',
             difficulty,
             geometry: {
                 type: "Point",
-                coordinates: [-113.1331, 47.0202]
+                coordinates: [
+                    cities[random1000].longitude,
+                    cities[random1000].latitude,
+                ]
             },
+            images: [
+                {
+                    url: 'https://res.cloudinary.com/douqbebwk/image/upload/v1600060601/YelpCamp/ahfnenvca4tha00h2ubt.png',
+                    filename: 'hikehunter/ahfnenvca4tha00h2ubt'
+                },
+                {
+                    url: 'https://res.cloudinary.com/douqbebwk/image/upload/v1600060601/YelpCamp/ruyoaxgf72nzpi4y6cdi.png',
+                    filename: 'hikehunter/ruyoaxgf72nzpi4y6cdi'
+                }
+            ]
         })
         await hike.save();
     }
