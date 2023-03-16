@@ -36,6 +36,7 @@ module.exports.showHike = async (req, res,) => {
             path: 'author'
         }
     }).populate('author');
+    console.log(hike);
     if (!hike) {
         req.flash('error', 'Cannot find that hike!');
         return res.redirect('/hikes');
