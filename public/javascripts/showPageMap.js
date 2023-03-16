@@ -1,14 +1,14 @@
 
 mapboxgl.accessToken = mapToken;
 
-console.log(`what is: ${mapToken}`);
-
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
     center: hike.geometry.coordinates, // starting position [lng, lat]
     zoom: 10 // starting zoom
 });
+
+map.addControl(new mapboxgl.NavigationControl());
 
 new mapboxgl.Marker()
     .setLngLat(hike.geometry.coordinates)
