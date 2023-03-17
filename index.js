@@ -20,8 +20,7 @@ const hikeRoutes = require('./routes/hikes');
 const reviewRoutes = require('./routes/reviews');
 
 const MongoStore = require('connect-mongo');
-const dbUrl = 'mongodb://localhost:27017/hikehunter';
- // || process.env.DB_URL;
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/hikehunter';
 
  mongoose.set('strictQuery', false);
 
