@@ -41,11 +41,11 @@ const seedDB = async () => {
             },
             images: [
                 {
-                    url: 'https://res.cloudinary.com/douqbebwk/image/upload/v1600060601/YelpCamp/ahfnenvca4tha00h2ubt.png',
+                    url: 'https://source.unsplash.com/random/?hiking',
                     filename: 'hikehunter/ahfnenvca4tha00h2ubt'
                 },
                 {
-                    url: 'https://res.cloudinary.com/douqbebwk/image/upload/v1600060601/YelpCamp/ruyoaxgf72nzpi4y6cdi.png',
+                    url: 'https://source.unsplash.com/random/?camping',
                     filename: 'hikehunter/ruyoaxgf72nzpi4y6cdi'
                 }
             ]
